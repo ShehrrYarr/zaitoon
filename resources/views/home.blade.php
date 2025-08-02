@@ -82,6 +82,13 @@
                             <img src="homepage_assets/images/logo.svg" alt="Leverage">
                         -->
                 </a>
+                <a class="navbar-brand" href="/">
+                    Usman&Ali<i class="version-number">Mobiles</i>
+                    <!--
+                            Custom Logo
+                            <img src="homepage_assets/images/logo.svg" alt="Leverage">
+                        -->
+                </a>
               
 
                 <div class="ml-auto"></div>
@@ -356,7 +363,7 @@
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
                                             <i class="icon-phone mr-2"></i>
-                                            +923127852629
+                                            +923075766855
                                         </a>
                                     </li>
                                     <li class="nav-item">
