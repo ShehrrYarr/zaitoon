@@ -82,6 +82,7 @@
                             <img src="homepage_assets/images/logo.svg" alt="Leverage">
                         -->
                 </a>
+              
 
                 <div class="ml-auto"></div>
 
@@ -136,7 +137,7 @@
                         <div class="col-12 d-flex inner">
                             <div class="left align-self-center text-center text-md-left">
                                 <h1 data-aos="zoom-out-up" data-aos-delay="400" class="title effect-static-text">Al
-                                    Zaitoon Traders</h1>
+                                    Zaitoon Traders | Usman & Ali Mobiles</h1>
                                 <p data-aos="zoom-out-up" data-aos-delay="800" class="description">We are selling
                                     PTA,NON-PTA Iphones and Andriods at affordable prices</p>
                                 <a href="#" data-toggle="modal" data-target="#login"
@@ -299,7 +300,7 @@
                             <div class="branding col-12 p-3 text-center text-lg-left item">
                                 <div class="brand">
                                     <a href="/" class="logo">
-                                        Al Zaitoon Traders
+                                        Al Zaitoon Traders | Usman & Ali Mobiles
                                         <!--
                                                 Custom Logo
                                                 <img src="homepage_assets/images/logo.svg" alt="Leverage">
