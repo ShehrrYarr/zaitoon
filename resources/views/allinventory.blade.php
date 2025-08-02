@@ -139,10 +139,10 @@
                                                  <td>{{ \Carbon\Carbon::parse($item->mobile->created_at)->format(' Y-m-d / h:i ') }}</td>
                                                 </td>
                                                                           <td>
-    @if(empty($item->mobile_name_id))
-        {{ $item->mobile_name }}
-    @elseif($item->mobileName)
-        {{ $item->mobileName->name }}
+    @if(empty($item->mobile->mobile_name_id))
+        {{ $item->mobile->mobile_name }}
+    @elseif($item->mobile->mobileName)
+        {{ $item->mobile->mobileName->name }}
     @else
         N/A
     @endif

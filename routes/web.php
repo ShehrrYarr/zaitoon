@@ -537,8 +537,9 @@ Route::get('/allinventory', function () {
         ->where('availability', 'Available')
         ->where('is_transfer', false)->with('mobileName','company','group')
         ->get();
+        // dd( $mobile);
 
-    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile')
+    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName')
         ->whereIn('id', function ($query) {
             $query->select(\DB::raw('MAX(id)'))
                 ->from('transfer_records')
