@@ -110,11 +110,11 @@
         N/A
     @endif
 </td>
+<td>{{ $key->original_owner->name ?? 'N/A' }}</td>
                                            <td>{{ $key->company->name ?? 'N/A' }}</td>
 <td>{{ $key->group->name ?? 'N/A' }}</td>
 
                                             <td>{{ $key->imei_number }}</td>
-                                            <td>{{ $key->original_owner->name ?? 'N/A' }}</td>
                                             <td>{{ $key->sim_lock }}</td>
                                             <td>{{ $key->color }}</td>
                                             <td>{{ $key->storage }}</td>
