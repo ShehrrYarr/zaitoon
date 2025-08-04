@@ -317,7 +317,7 @@
                             <table class="table table-striped table-bordered zero-configuration" id="soldTable">
                                 <thead>
                                     <tr>
-                                        <th><input type="checkbox" id="select-all"></th>
+                                        {{-- <th><input type="checkbox" id="select-all"></th> --}}
                                         <th>Sold at</th>
                                         <th>Mobile Name</th>
                                         <th>IMEI#</th>
@@ -341,9 +341,9 @@
                                 <tbody>
                                     @foreach ($mobile as $key)
                                         <tr>
-                                              <td>
+                                              {{-- <td>
                     <input type="checkbox" class="row-checkbox" value="{{ $key->id }}">
-                </td>
+                </td> --}}
                                             <!--<td>{{ $key->sold_at }}</td>-->
                                             <td>{{ \Carbon\Carbon::parse($key->sold_at)->format(' Y-m-d / h:i ') }}</td>
                                                                    <td>
@@ -385,7 +385,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        <button id="approve-selected" class="btn btn-success mb-2">Approve Selected</button>
+                        {{-- <button id="approve-selected" class="btn btn-success mb-2">Approve Selected</button> --}}
 
                         </div>
                     </div>
