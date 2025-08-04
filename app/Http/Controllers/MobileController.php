@@ -722,7 +722,19 @@ public function bulkStore(Request $request)
 
 public function approveBulk(Request $request)
 {
-    // dd($request->all());
+    // Only allow if logged in user is admin (id = 6)
+    if (auth()->id() != 6) {
+        // For AJAX request, return JSON error
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => false,
+                'message' => "You can't approve this mobile"
+            ], 403);
+        }
+        // For normal requests, redirect back with error
+        return redirect()->back()->with('danger', "You can't approve this mobile");
+    }
+
     $ids = $request->input('mobile_ids', []);
     if (!empty($ids)) {
         Mobile::whereIn('id', $ids)->update(['is_approve' => 'Approved']);
@@ -730,6 +742,7 @@ public function approveBulk(Request $request)
     }
     return response()->json(['success' => false, 'message' => 'No mobiles selected'], 400);
 }
+
 
 
 
