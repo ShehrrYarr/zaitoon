@@ -317,6 +317,7 @@
                             <table class="table table-striped table-bordered zero-configuration" id="soldTable">
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" id="select-all"></th>
                                         <th>Sold at</th>
                                         <th>Mobile Name</th>
                                         <th>IMEI#</th>
@@ -340,6 +341,9 @@
                                 <tbody>
                                     @foreach ($mobile as $key)
                                         <tr>
+                                              <td>
+                    <input type="checkbox" class="row-checkbox" value="{{ $key->id }}">
+                </td>
                                             <!--<td>{{ $key->sold_at }}</td>-->
                                             <td>{{ \Carbon\Carbon::parse($key->sold_at)->format(' Y-m-d / h:i ') }}</td>
                                                                    <td>
@@ -381,6 +385,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        <button id="approve-selected" class="btn btn-success mb-2">Approve Selected</button>
+
                         </div>
                     </div>
                 </div>
@@ -474,6 +480,7 @@
                                 </tbody>
                             </table>
                         </div>
+
                     </div>
                 </div>
 
@@ -677,5 +684,55 @@
             document.getElementById('dangerMessage').style.display = 'none';
         }, 5000); // 15 seconds in milliseconds
         //End Message Time Out
+
+        // Initialize DataTable if not already done
+$(document).ready(function() {
+    var table = $('#soldTable').DataTable({
+        // Your usual DataTable options...
+    });
+
+    // Select-all functionality
+    $('#select-all').on('change', function() {
+        $('.row-checkbox').prop('checked', this.checked);
+    });
+
+    // Uncheck 'select-all' if any single checkbox is unchecked
+    $(document).on('change', '.row-checkbox', function() {
+        if(!this.checked) {
+            $('#select-all').prop('checked', false);
+        }
+    });
+
+    // Approve selected
+    $('#approve-selected').on('click', function(e) {
+        e.preventDefault();
+        let selected = [];
+        $('.row-checkbox:checked').each(function() {
+            selected.push($(this).val());
+        });
+
+        if(selected.length === 0) {
+            alert('Please select at least one mobile to approve.');
+            return;
+        }
+
+        // Send AJAX POST to approve route
+        $.ajax({
+            url: '{{ route("approveBulkMobiles") }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                mobile_ids: selected
+            },
+            success: function(response) {
+                location.reload(); // Or handle as needed
+            },
+            error: function() {
+                alert('There was an error approving the selected mobiles.');
+            }
+        });
+    });
+});
+
     </script>
 @endsection

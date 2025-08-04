@@ -598,3 +598,5 @@ Route::put('/updatemobilename', [MobileNameController::class, 'updateMobileName'
 Route::get('/mobiles/bulk-entry', [MobileController::class, 'bulkEntryForm'])->name('mobiles.bulkEntryForm');
 Route::post('/mobiles/bulk-entry', [MobileController::class, 'bulkStore'])->name('mobiles.bulkStore');
 Route::get('/mobiles/check-imei', [MobileController::class, 'checkImei'])->name('mobiles.checkImei');
+Route::post('/mobiles/approve-bulk', [MobileController::class, 'approveBulk'])->name('approveBulkMobiles');
+

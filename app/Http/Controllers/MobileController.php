@@ -720,6 +720,17 @@ public function bulkStore(Request $request)
     return redirect()->back()->with('success', 'All mobiles saved successfully!');
 }
 
+public function approveBulk(Request $request)
+{
+    // dd($request->all());
+    $ids = $request->input('mobile_ids', []);
+    if (!empty($ids)) {
+        Mobile::whereIn('id', $ids)->update(['is_approve' => 'Approved']);
+        return response()->json(['success' => true]);
+    }
+    return response()->json(['success' => false, 'message' => 'No mobiles selected'], 400);
+}
+
 
 
 }
