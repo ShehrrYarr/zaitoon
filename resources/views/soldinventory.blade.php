@@ -428,7 +428,7 @@
                                 <tbody>
                                     @foreach ($transferMobiles as $key)
                                         <tr>
-                                            <td>{{ $key->mobile->mobile_name }}</td>
+                                            {{-- <td>{{ $key->mobile->mobile_name }}</td> --}}
                                                                    <td>
     @if(empty($key->mobile->mobile_name_id))
         {{ $key->mobile->mobile_name }}
