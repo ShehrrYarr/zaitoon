@@ -224,28 +224,37 @@ public function updateMobile(Request $request)
 {
     $data = Mobile::findOrFail($request->id);
 
-    // Check if the authenticated user ID is 2
-    if (auth()->user()->id === 6) {
-        // Update publication data
-        $data->mobile_name = $request->input('mobile_name');
-        $data->imei_number = $request->input('imei_number');
-        $data->sim_lock = $request->input('sim_lock');
-        $data->color = $request->input('color');
-        $data->storage = $request->input('storage');
-        $data->cost_price = $request->input('cost_price');
-        $data->selling_price = $request->input('selling_price');
-        $data->availability = $request->input('availability');
-        $data->customer_name = $request->input('customer_name');
-        $data->sold_at = now();
-        $data->battery_health = $request->input('battery_health');
-        $data->is_approve = $request->input('is_approve');
-
-        $data->save();
-
-        return redirect()->back()->with('success', 'Mobile updated successfully.');
-    } else {
+    // Only user id 6 can update
+    if (auth()->user()->id !== 6) {
         return redirect()->back()->with('danger', "You can't edit the product.");
     }
+
+    // Handle mobile_name and mobile_name_id logic
+    if ($request->filled('mobile_name_id')) {
+        // New format: Save selected mobile_name_id and clear the plain name
+        $data->mobile_name_id = $request->input('mobile_name_id');
+        $data->mobile_name = null;
+    } else {
+        // Old format: Save mobile_name as text (from the old entry), clear mobile_name_id
+        $data->mobile_name = $request->input('mobile_name'); // should come as the text value from the form
+        $data->mobile_name_id = null;
+    }
+
+    $data->imei_number = $request->input('imei_number');
+    $data->sim_lock = $request->input('sim_lock');
+    $data->color = $request->input('color');
+    $data->storage = $request->input('storage');
+    $data->cost_price = $request->input('cost_price');
+    $data->selling_price = $request->input('selling_price');
+    $data->availability = $request->input('availability');
+    $data->customer_name = $request->input('customer_name');
+    $data->sold_at = now();
+    $data->battery_health = $request->input('battery_health');
+    $data->is_approve = $request->input('is_approve');
+
+    $data->save();
+
+    return redirect()->back()->with('success', 'Mobile updated successfully.');
 }
 
 
