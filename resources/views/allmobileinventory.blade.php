@@ -31,6 +31,22 @@
                             </select>
                             </div>
 
+                             <div class="mb-1" >
+                            <label for="group_id" class="form-label">Company</label>
+                            <select class="form-control" id="edit_company_id" name="company_id" required>
+    @foreach($companies as $company)
+    <option value="{{ $company->id }}">{{ $company->name }}</option>
+    @endforeach
+</select>
+                        </div>
+                         <div class="mb-1" >
+                            <label for="group_id" class="form-label">Group</label>
+                            <select class="form-control" id="edit_group_id" name="group_id" required>
+    @foreach($groups as $group)
+    <option value="{{ $group->id }}">{{ $group->name }}</option>
+    @endforeach
+</select>
+                        </div>
                             <div class="mb-1">
                                 <label for="imei_number" class="form-label">IMEI Number</label>
                                 <input type="text" class="form-control" id="imei_number" name="imei_number" required>
@@ -118,7 +134,7 @@
                         {{ session('danger') }}
                     </div>
                 @endif
-                
+
         <div class="content-overlay"></div>
         <div class="content-wrapper">
             <div class="content-header row">
@@ -294,6 +310,11 @@ if (data.result.mobile_name_id) {
     $select.prepend('<option class="temp-mobile-name" value="">' + data.result.mobile_name + '</option>');
     $select.val('');
 }
+
+$('#edit_company_id').val(data.result.company_id);
+
+// Group
+$('#edit_group_id').val(data.result.group_id);
 
                     $('#imei_number').val(data.result.imei_number);
                     $('#sim_lock').val(data.result.sim_lock);

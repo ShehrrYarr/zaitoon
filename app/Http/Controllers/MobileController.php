@@ -178,7 +178,7 @@ class MobileController extends Controller
      */
  public function editMobile($id)
 {
-    $mobile = \App\Models\Mobile::with('mobileName')->find($id);
+    $mobile = \App\Models\Mobile::with('mobileName','company', 'group')->find($id);
     if (!$mobile) {
         return response()->json(['message' => 'Id not found'], 404);
     }
@@ -191,6 +191,9 @@ class MobileController extends Controller
     } else {
         $result['mobile_name_display'] = $mobile->mobile_name;
     }
+
+    //   $result['company_id'] = $mobile->company_id;
+    // $result['group_id'] = $mobile->group_id;
 
     return response()->json(['result' => $result]);
 }
@@ -229,15 +232,22 @@ public function updateMobile(Request $request)
         return redirect()->back()->with('danger', "You can't edit the product.");
     }
 
-    // Handle mobile_name and mobile_name_id logic
+    // ----- Mobile Name Logic -----
     if ($request->filled('mobile_name_id')) {
-        // New format: Save selected mobile_name_id and clear the plain name
         $data->mobile_name_id = $request->input('mobile_name_id');
         $data->mobile_name = null;
     } else {
-        // Old format: Save mobile_name as text (from the old entry), clear mobile_name_id
-        $data->mobile_name = $request->input('mobile_name'); // should come as the text value from the form
+        $data->mobile_name = $request->input('mobile_name');
         $data->mobile_name_id = null;
+    }
+
+    // ----- Company Logic -----
+    if ($request->filled('company_id')) {
+        $data->company_id = $request->input('company_id');
+    }
+    // ----- Group Logic -----
+    if ($request->filled('group_id')) {
+        $data->group_id = $request->input('group_id');
     }
 
     $data->imei_number = $request->input('imei_number');
@@ -256,6 +266,7 @@ public function updateMobile(Request $request)
 
     return redirect()->back()->with('success', 'Mobile updated successfully.');
 }
+
 
 
 public function restoreMobile(Request $request)
