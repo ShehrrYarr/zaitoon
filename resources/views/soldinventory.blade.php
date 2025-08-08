@@ -430,10 +430,10 @@
                                         <tr>
                                             {{-- <td>{{ $key->mobile->mobile_name }}</td> --}}
                                                                    <td>
-    @if(empty($key->mobile->mobile_name_id))
-        {{ $key->mobile->mobile_name }}
-    @elseif($key->mobileName)
-        {{ $key->mobileName->name }}
+    @if(empty($key->mobile->mobileName->id))
+        {{ $key->mobile->mobileName->name }}
+    @elseif($key->mobile->mobileName)
+        {{ $key->mobile->mobileName->name }}
     @else
         N/A
     @endif

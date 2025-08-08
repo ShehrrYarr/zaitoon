@@ -153,6 +153,40 @@ Route::get('/managerecentinventory', function () {
 
 
 
+Route::get('/soldtransferinventory', function () {
+    $users = User::all();
+
+    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName')
+        ->whereIn('id', function ($query) {
+            $query->select(\DB::raw('MAX(id)'))
+                ->from('transfer_records')
+                ->groupBy('mobile_id');
+        })
+        ->where('to_user_id', Auth::id())
+        ->whereHas('mobile', function ($query) {
+            $query->where('user_id', Auth::id())
+                ->where('availability', 'Sold')
+                ->where('is_approve', 'Not_Approved');
+        })
+        ->whereHas('mobile', function ($query) {
+            $query->where('is_transfer', true);
+        })
+        ->get();
+
+    $transferMobiles->each(function ($transferMobile) {
+        $transferMobile->profit = $transferMobile->mobile->selling_price - $transferMobile->mobile->cost_price;
+    });
+
+    $totalProfit = $transferMobiles->sum('profit');
+    $totalCostPrice = $transferMobiles->sum(function ($transferMobile) {
+        return $transferMobile->mobile->cost_price;
+    });
+
+    return view('soldtransferinventory', compact('transferMobiles', 'users', 'totalProfit', 'totalCostPrice'));
+})->middleware('auth');
+
+
+
 Route::get('/soldinventory', function () {
     $mobile = Mobile::where('user_id', auth()->user()->id)
         ->where('availability', 'Sold')
@@ -171,7 +205,7 @@ Route::get('/soldinventory', function () {
     // Calculate the sum of the selling_price for the $mobile collection
     $sumSellingPriceMobile = $mobile->sum('selling_price');
 
-    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile','mobileNames')
+    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName')
         ->whereIn('id', function ($query) {
             $query->select(\DB::raw('MAX(id)'))
                 ->from('transfer_records')
@@ -187,6 +221,8 @@ Route::get('/soldinventory', function () {
             $query->where('is_transfer', true);
         })
         ->get();
+
+        // dd( $transferMobiles);
 
     // Calculate the sum of the profit for the $transferMobiles collection
     $totalProfitTransfer = $transferMobiles->sum(function ($transferMobile) {
@@ -204,6 +240,16 @@ Route::get('/soldinventory', function () {
 
     return view('soldinventory', compact('mobile', 'transferMobiles', 'totalProfitMobile', 'totalProfitTransfer', 'sumCostPriceMobile', 'sumSellingPriceTransfer', 'sumCostPriceTransfer', 'overAllProfit', 'sumSellingPriceMobile'));
 })->middleware('auth');
+
+
+
+
+
+
+
+
+
+
 
 Route::get('/soldapprovedinventory', function () {
 
@@ -408,37 +454,7 @@ Route::get('/transferinventory', function () {
 // })->middleware('auth');
 
 
-Route::get('/soldtransferinventory', function () {
-    $users = User::all();
 
-    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName')
-        ->whereIn('id', function ($query) {
-            $query->select(\DB::raw('MAX(id)'))
-                ->from('transfer_records')
-                ->groupBy('mobile_id');
-        })
-        ->where('to_user_id', Auth::id())
-        ->whereHas('mobile', function ($query) {
-            $query->where('user_id', Auth::id())
-                ->where('availability', 'Sold')
-                ->where('is_approve', 'Not_Approved');
-        })
-        ->whereHas('mobile', function ($query) {
-            $query->where('is_transfer', true);
-        })
-        ->get();
-
-    $transferMobiles->each(function ($transferMobile) {
-        $transferMobile->profit = $transferMobile->mobile->selling_price - $transferMobile->mobile->cost_price;
-    });
-
-    $totalProfit = $transferMobiles->sum('profit');
-    $totalCostPrice = $transferMobiles->sum(function ($transferMobile) {
-        return $transferMobile->mobile->cost_price;
-    });
-
-    return view('soldtransferinventory', compact('transferMobiles', 'users', 'totalProfit', 'totalCostPrice'));
-})->middleware('auth');
 
 
 // Sold Approve
