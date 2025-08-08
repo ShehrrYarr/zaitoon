@@ -148,7 +148,7 @@
 
 <script>
     let index = 0;
-    function addRowToTable() {
+  function addRowToTable() {
     let mobile_name_id = document.getElementById('mobile_name_id').value;
     let mobile_name_text = document.getElementById('mobile_name_id').selectedOptions[0].text;
     let company_id = document.getElementById('company_id').value;
@@ -210,18 +210,19 @@
     window.mobTable.row.add($(row)).draw();
     index++;
 
-    // Reset inputs
-    document.getElementById('mobile_name_id').selectedIndex = 0;
-    document.getElementById('company_id').selectedIndex = 0;
-    document.getElementById('group_id').selectedIndex = 0;
+    // Reset only the fields that change per mobile
     document.getElementById('imei_number').value = '';
-    document.getElementById('sim_lock').selectedIndex = 0;
     document.getElementById('color').value = '';
     document.getElementById('storage').value = '';
     document.getElementById('battery_health').value = '';
     document.getElementById('cost_price').value = '';
     document.getElementById('selling_price').value = '';
+
+    // Keep the same Mobile Name, Company, Group, and SIM Lock selections
+    // Focus back to IMEI for quick entry
+    document.getElementById('imei_number').focus();
 }
+
 
 document.getElementById('addMobile').onclick = function() {
     // Collect values
