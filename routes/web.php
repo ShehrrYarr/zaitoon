@@ -157,7 +157,7 @@ Route::get('/soldinventory', function () {
     $mobile = Mobile::where('user_id', auth()->user()->id)
         ->where('availability', 'Sold')
         ->where('is_transfer', false)
-        ->where('is_approve', 'Not_Approved')
+        ->where('is_approve', 'Not_Approved')->with('mobileNames')
         ->get();
 
     // Calculate the sum of the profit for the $mobile collection
@@ -171,7 +171,7 @@ Route::get('/soldinventory', function () {
     // Calculate the sum of the selling_price for the $mobile collection
     $sumSellingPriceMobile = $mobile->sum('selling_price');
 
-    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile')
+    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile','mobileNames')
         ->whereIn('id', function ($query) {
             $query->select(\DB::raw('MAX(id)'))
                 ->from('transfer_records')
