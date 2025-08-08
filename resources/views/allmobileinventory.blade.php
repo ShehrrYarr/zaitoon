@@ -145,7 +145,7 @@
 
                    <div class="ml-1">
                 <form method="GET" action="{{ route('allShopMobile') }}" class="mb-3 d-flex align-items-center">
-                     <select class="form-control" id="nameSelect" name="mobile_name_id" required>
+                     <select class="form-control" id="nameSelect" name="mobile_name_id" >
     <option value="">Select Mobile Name</option>
     @foreach($mobileNames as $mobileName)
         <option value="{{ $mobileName->id }}" {{ request('mobile_name_id') == $mobileName->id ? 'selected' : '' }}>{{ $mobileName->name }}</option>
@@ -157,7 +157,7 @@
         <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
     @endforeach
 </select>
-<select class="form-control" name="group_id" required>
+<select class="form-control" name="group_id" >
     <option value="">Select Group</option>
     @foreach($groups as $group)
         <option value="{{ $group->id }}" {{ request('group_id') == $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
