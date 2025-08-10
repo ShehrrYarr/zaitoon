@@ -640,7 +640,7 @@ public function otherTransferInventory($id)
 }
 public function otherTransferSoldInventory($id)
 {
-    $mobileData = TransferRecord::with('fromUser', 'toUser', 'mobile')
+    $mobileData = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName')
         ->whereIn('id', function ($query) {
             $query->select(\DB::raw('MAX(id)'))
                 ->from('transfer_records')

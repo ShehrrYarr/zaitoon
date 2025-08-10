@@ -154,7 +154,15 @@
                 </td>
                                              <!--<td>{{ $key->mobile->sold_at }}</td>-->
                                              <td>{{ \Carbon\Carbon::parse($key->mobile->sold_at)->format(' Y-m-d / h:i ') }}</td>
-                                            <td>{{ $key->mobile->mobile_name }}</td>
+                                                <td>
+    @if(empty($key->mobile->mobile_name_id))
+        {{ $key->mobile->mobile_name }}
+    @elseif($key->mobile->mobileName)
+        {{ $key->mobile->mobileName->name }}
+    @else
+        N/A
+    @endif
+</td>
                                             <td>{{ $key->mobile->imei_number }}</td>
                                             <td>{{ $key->mobile->sim_lock }}</td>
                                             <td>{{ $key->mobile->color }}</td>
