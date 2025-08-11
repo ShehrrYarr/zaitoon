@@ -176,7 +176,7 @@
                                 href="/allshopmobile" data-i18n="1 columns">All Available Mobiles</a>
                         </li>
                         <li class="@if (\Request::is('totalshopmobile')) active @endif"><a class="menu-item"
-                                href="/totalshopmobile" data-i18n="1 columns">Total Mobiles Mobiles</a>
+                                href="/totalshopmobile" data-i18n="1 columns">Total  Mobiles</a>
                         </li>
 
 
