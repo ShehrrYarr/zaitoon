@@ -144,7 +144,7 @@
                 {{-- Filter Section start --}}
 
                    <div class="ml-1">
-                <form method="GET" action="{{ route('allShopMobile') }}" class="mb-3 d-flex align-items-center">
+                <form method="GET" action="{{ route('totalshopmobile') }}" class="mb-3 d-flex align-items-center">
                      <select class="form-control" id="nameSelect" name="mobile_name_id" >
     <option value="">Select Mobile Name</option>
     @foreach($mobileNames as $mobileName)
@@ -165,7 +165,7 @@
 </select>
                     
                     <button type="submit" class="btn btn-primary mx-1">Filter</button>
-                    <a href="{{ route('allShopMobile') }}" class="btn btn-secondary mx-1">Reset</a>
+                    <a href="{{ route('totalshopmobile') }}" class="btn btn-secondary mx-1">Reset</a>
                 </form>
             </div>
                 {{-- Filter Section End --}}
