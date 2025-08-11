@@ -173,7 +173,10 @@
                             data-i18n="Templates">All Shop's Mobile</span></a>
                     <ul class="menu-content">
                         <li class="@if (\Request::is('allshopmobile')) active @endif"><a class="menu-item"
-                                href="/allshopmobile" data-i18n="1 columns">All Mobiles</a>
+                                href="/allshopmobile" data-i18n="1 columns">All Available Mobiles</a>
+                        </li>
+                        <li class="@if (\Request::is('totalshopmobile')) active @endif"><a class="menu-item"
+                                href="/totalshopmobile" data-i18n="1 columns">Total Mobiles Mobiles</a>
                         </li>
 
 

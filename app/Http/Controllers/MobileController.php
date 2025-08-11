@@ -92,6 +92,31 @@ class MobileController extends Controller
     return view('allmobileinventory', compact('mobile', 'users','groups', 'companies', 'mobileNames'));
 }
 
+    public function totalShopMobile(Request $request) {
+    $groups = Group::all();
+    $companies = Company::all();
+    $mobileNames = MobileName::all();
+    $users = User::all();
+
+    $query = Mobile::with('company', 'group', 'mobileName','original_owner','user') ;
+
+    // Apply filters if present
+    if ($request->filled('mobile_name_id')) {
+        $query->where('mobile_name_id', $request->mobile_name_id);
+    }
+    if ($request->filled('company_id')) {
+        $query->where('company_id', $request->company_id);
+    }
+    if ($request->filled('group_id')) {
+        $query->where('group_id', $request->group_id);
+    }
+
+    $mobile = $query->get();
+
+
+    return view('totalshopmobileinventory', compact('mobile', 'users','groups', 'companies', 'mobileNames'));
+}
+
 
 
 

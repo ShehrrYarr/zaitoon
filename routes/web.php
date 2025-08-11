@@ -118,6 +118,7 @@ Route::get('/index', [App\Http\Controllers\UserController::class, 'index'])->nam
 
 Route::get('/manageinventory', [App\Http\Controllers\MobileController::class, 'manageInventory'])->name('manageInventory');
 Route::get('/allshopmobile', [App\Http\Controllers\MobileController::class, 'allShopMobile'])->name('allShopMobile');
+Route::get('/totalshopmobile', [App\Http\Controllers\MobileController::class, 'totalShopMobile'])->name('totalshopmobile');
 
 
 
