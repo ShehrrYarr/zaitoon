@@ -197,6 +197,7 @@
                                     <tr>
                                         {{-- <th>ID</th> --}}
                                         <th>Added at</th>
+                                        <th>Sold at</th>
                                         <th>Mobile Name</th>
                                         <th>Owner Name</th>
                                         <th>Shop Name</th>
@@ -222,6 +223,7 @@
                                             {{-- <td>{{ $key->created_at }}</td> --}}
                                             <!--<td>{{ \Carbon\Carbon::parse($key->created_at)->tz('Asia/Karachi')->format('d h:i A, M ,Y') }}</td>-->
                                            <td>{{ \Carbon\Carbon::parse($key->created_at)->format(' Y-m-d / h:i ') }}</td>
+                                           <td>{{ \Carbon\Carbon::parse($key->sold_at)->format(' Y-m-d / h:i ') ?? null }} </td>
                                            <!--<td>{{ \Carbon\Carbon::parse($key->created_at)->diffForHumans() }}</td>-->
 
 
