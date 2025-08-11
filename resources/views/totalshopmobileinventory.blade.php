@@ -163,6 +163,20 @@
         <option value="{{ $group->id }}" {{ request('group_id') == $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
     @endforeach
 </select>
+
+   <select class="form-control" name="availability" >
+    <option value="">All</option>
+
+                                    <option value="Sold">Sold</option>
+                                    <option value="Available">Available</option>
+                                    <option value="Pending">Pending</option>
+                                </select>
+                                <select class="form-control" name="user_id" >
+    <option value="">Select Shop</option>
+    @foreach($users as $user)
+        <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+    @endforeach
+</select>
                     
                     <button type="submit" class="btn btn-primary mx-1">Filter</button>
                     <a href="{{ route('totalshopmobile') }}" class="btn btn-secondary mx-1">Reset</a>
@@ -185,6 +199,7 @@
                                         <th>Added at</th>
                                         <th>Mobile Name</th>
                                         <th>Owner Name</th>
+                                        <th>Shop Name</th>
                                         <th>Company</th>
                                         <th>Group</th>
                                         <th>IMEI#</th>
@@ -225,6 +240,7 @@
     @endif
 </td>
 <td>{{ $key->original_owner->name ?? 'N/A' }}</td>
+<td>{{ $key->user->name ?? 'N/A' }}</td>
                                            <td>{{ $key->company->name ?? 'N/A' }}</td>
 <td>{{ $key->group->name ?? 'N/A' }}</td>
 

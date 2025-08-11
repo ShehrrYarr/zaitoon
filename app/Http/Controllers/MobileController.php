@@ -93,6 +93,7 @@ class MobileController extends Controller
 }
 
     public function totalShopMobile(Request $request) {
+        // dd($request->all());
     $groups = Group::all();
     $companies = Company::all();
     $mobileNames = MobileName::all();
@@ -110,7 +111,13 @@ class MobileController extends Controller
     if ($request->filled('group_id')) {
         $query->where('group_id', $request->group_id);
     }
-
+    if ($request->filled('availability')) {
+        $query->where('availability', $request->availability);
+    }
+    if ($request->filled('user_id')) {
+        $query->where('user_id', $request->user_id);
+    }
+ 
     $mobile = $query->get();
 
 

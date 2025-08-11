@@ -164,6 +164,8 @@
     @endforeach
 </select>
                     
+
+                    
                     <button type="submit" class="btn btn-primary mx-1">Filter</button>
                     <a href="{{ route('allShopMobile') }}" class="btn btn-secondary mx-1">Reset</a>
                 </form>
