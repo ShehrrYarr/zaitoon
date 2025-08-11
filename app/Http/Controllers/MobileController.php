@@ -598,6 +598,8 @@ public function otherTotalInventory($id)
 
 public function otherSoldInventory($id)
 {
+            $userId = auth()->id();
+
     $mobileNames= MobileName::all();
 
     $mobileData = Mobile::where('user_id', $id)
@@ -605,7 +607,7 @@ public function otherSoldInventory($id)
     ->where('availability', 'Sold')
     ->get();
 
-    return view('othersoldinventory', ['mobileData' => $mobileData]);
+    return view('othersoldinventory', ['mobileData' => $mobileData ,'userId'=>$userId]);
 }
 
 public function otherPendingInventory($id)
@@ -640,6 +642,9 @@ public function otherTransferInventory($id)
 }
 public function otherTransferSoldInventory($id)
 {
+
+            $userId = auth()->id();
+
     $mobileData = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName')
         ->whereIn('id', function ($query) {
             $query->select(\DB::raw('MAX(id)'))
@@ -656,7 +661,7 @@ public function otherTransferSoldInventory($id)
         })
         ->get();
 
-    return view('othertransfersoldinventory', ['mobileData' => $mobileData]);
+    return view('othertransfersoldinventory', ['mobileData' => $mobileData,'userId'=>$userId]);
 }
 
 

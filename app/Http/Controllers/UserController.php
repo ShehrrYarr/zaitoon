@@ -20,6 +20,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        $userId = auth()->id();
+
         //User Mobile Count
         $userMobileCount = Mobile::where('availability', 'Available')
             ->where('is_transfer', false)->where('user_id', Auth::id())
@@ -124,7 +126,7 @@ class UserController extends Controller
             ->count();
 
 
-        return view('user_dashboard', compact('userMobileCount', 'receivedMobiles', 'soldMobile', 'receivedSoldMobiles', 'totalCostPrice', 'totalSellingPrice','sumCostPrice','profit','pendingMobiles','receivedPendingMobiles'));
+        return view('user_dashboard', compact('userId','userMobileCount', 'receivedMobiles', 'soldMobile', 'receivedSoldMobiles', 'totalCostPrice', 'totalSellingPrice','sumCostPrice','profit','pendingMobiles','receivedPendingMobiles'));
     }
 
     /**

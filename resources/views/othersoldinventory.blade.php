@@ -127,7 +127,10 @@
                             <table class="table table-striped table-bordered zero-configuration" id="soldTable">
                                 <thead>
                                     <tr>
+                                                    @if (in_array($userId, [6]))
+
                                         <th><input type="checkbox" id="select-all"></th>
+                                        @endif
                                         <th>Sold at</th>
                                         <th>Mobile Name</th>
                                         <th>IMEI#</th>
@@ -149,9 +152,12 @@
                                     @foreach ($mobileData as $key)
 
                                         <tr>
+                                                        @if (in_array($userId, [6]))
+
                                                      <td>
                     <input type="checkbox" class="row-checkbox" value="{{ $key->id }}">
                 </td>
+                @endif
                                             
                                             <td>{{ \Carbon\Carbon::parse($key->sold_at )->format(' Y-m-d / h:i ') }}</td>
                                                           <td>
