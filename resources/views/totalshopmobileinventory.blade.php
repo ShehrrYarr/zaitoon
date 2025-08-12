@@ -165,7 +165,7 @@
 </select>
 
    <select class="form-control" name="availability" >
-    <option value="">All</option>
+    <option value="">Select Availability</option>
 
                                     <option value="Sold">Sold</option>
                                     <option value="Available">Available</option>
