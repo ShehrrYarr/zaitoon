@@ -172,7 +172,7 @@
                                     <option value="Pending">Pending</option>
                                 </select>
                                 <select class="form-control" name="user_id" >
-    <option value="">Select Shop</option>
+    <option value="">All Shops</option>
     @foreach($users as $user)
         <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
     @endforeach
