@@ -164,13 +164,12 @@
     @endforeach
 </select>
 
-   <select class="form-control" name="availability" >
-    <option value="">Select Availability</option>
-
-                                    <option value="Sold">Sold</option>
-                                    <option value="Available">Available</option>
-                                    <option value="Pending">Pending</option>
-                                </select>
+   <select class="form-control" name="availability">
+    <option value="" {{ request('availability') === null || request('availability') === '' ? 'selected' : '' }}>Select Availability</option>
+    <option value="Available" {{ request('availability') == 'Available' ? 'selected' : '' }}>Available</option>
+    <option value="Sold" {{ request('availability') == 'Sold' ? 'selected' : '' }}>Sold</option>
+    <option value="Pending" {{ request('availability') == 'Pending' ? 'selected' : '' }}>Pending</option>
+</select>
                                 <select class="form-control" name="user_id" >
     <option value="">All Shops</option>
     @foreach($users as $user)
