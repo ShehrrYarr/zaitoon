@@ -431,7 +431,7 @@
                                             {{-- <td>{{ $key->mobile->mobile_name }}</td> --}}
                                                                    <td>
     @if(empty($key->mobile->mobileName->id))
-        {{ $key->mobile->name ?? "N/A"}}
+        {{ $key->mobile->mobile_name ?? "N/A"}}
     @elseif($key->mobile->mobileName)
         {{ $key->mobile->mobileName->name  }}
     @else
