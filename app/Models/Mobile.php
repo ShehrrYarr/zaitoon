@@ -16,6 +16,8 @@ class Mobile extends Model
         'storage',
         'cost_price',
         'selling_price',
+        'battery_cycle',
+    'description',
 
     ];
 
