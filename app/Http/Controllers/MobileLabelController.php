@@ -60,10 +60,6 @@ $zpl = "^XA
 
 
 
-
-
-
-
         return response($zpl, 200)->header('Content-Type', 'text/plain; charset=UTF-8');
     }
 }
