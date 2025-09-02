@@ -27,28 +27,7 @@ class MobileLabelController extends Controller
 
         // Basic, readable 2.25" label (203 dpi)
 
-// $zpl = "^XA
-// ^CI28
-// ^PW448
-// ^LL420
-// ^MD30                     // set max darkness
 
-// ^FO20,16^A0N,24,24^FB408,1,0,L,0^FD{$mobileName}^FS
-
-// // Company left
-// ^FO20,48^A0N,20,20^FD{$companyName}^FS
-// // Color right side
-// ^FO220,48^A0N,20,20^FDColor: {$color}^FS
-
-// // SIM Lock below
-// ^FO20,74^A0N,20,20^FDSIM Lock: {$san($mobile->sim_lock)}^FS
-
-// // Barcode (no human-readable)
-// ^BY2,3,60
-// ^FO20,110^BCN,60,N,N,N
-// ^FD{$imeiRaw}^FS
-
-// ^XZ";
 $zpl = "^XA
 ^CI28
 ^PW448
@@ -75,6 +54,10 @@ $zpl = "^XA
 ^FD{$imeiRaw}^FS
 
 ^XZ";
+
+
+
+
 
 
 
