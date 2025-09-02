@@ -26,20 +26,54 @@ class MobileLabelController extends Controller
         $imeiSpaced  = trim(chunk_split($imeiRaw, 5, ' '));
 
         // Basic, readable 2.25" label (203 dpi)
-        $zpl = "^XA
+//  $zpl = "^XA
+// ^CI28
+// ^PW448
+// ^LL420
+
+// ^FO20,16^A0N,24,24^FB408,1,0,L,0^FD{$mobileName}^FS
+
+// // Company on left
+// ^FO20,48^A0N,20,20^FD{$companyName}^FS
+
+// // Color right after company, shifted horizontally
+// ^FO220,48^A0N,20,20^FDColor: {$color}^FS
+
+// // SIM Lock on next line
+// ^FO20,74^A0N,20,20^FDSIM Lock: {$san($mobile->sim_lock)}^FS
+
+// ^BY2,3,60
+// ^FO20,110^BCN,60,N,N,N
+// ^FD{$imeiRaw}^FS
+
+// ^FO20,190^A0N,18,18^FDIMEI: {$imeiSpaced}^FS
+// ^XZ";
+$zpl = "^XA
+^CI28
 ^PW448
-^LL400
-^CF0,30
-^FO20,20^FD{$mobileName}^FS
-^CF0,26
-^FO20,60^FD{$companyName}^FS
-^FO20,95^FDColor: {$color}^FS
-^BY2,2,80
-^FO20,140^BCN,80,Y,N,N
+^LL420
+
+^FO20,16^A0N,24,24^FB408,1,0,L,0^FD{$mobileName}^FS
+
+// Company left
+^FO20,48^A0N,20,20^FD{$companyName}^FS
+// Color right side
+^FO220,48^A0N,20,20^FDColor: {$color}^FS
+
+// SIM Lock below
+^FO20,74^A0N,20,20^FDSIM Lock: {$san($mobile->sim_lock)}^FS
+
+// Barcode
+^BY2,3,60
+^FO20,110^BCN,60,N,N,N
 ^FD{$imeiRaw}^FS
-^CF0,24
-^FO20,235^FDIMEI: {$imeiSpaced}^FS
+
+// IMEI text moved up slightly (was 190, now 180)
+ ^FO20,180^A0N,18,18^FDIMEI: {$imeiSpaced}^FS
 ^XZ";
+
+
+
 
         return response($zpl, 200)->header('Content-Type', 'text/plain; charset=UTF-8');
     }
