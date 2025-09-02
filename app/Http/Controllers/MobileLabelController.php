@@ -34,7 +34,7 @@ $zpl = "^XA
 ^LL420
 ^MD30                     // maximum darkness
 
-^FO120,16^A0N,24,24^FB408,1,0,L,0^FD{$mobileName}^FS
+^FO40,16^A0N,24,24^FB408,1,0,L,0^FD{$mobileName}^FS
 
 // Company left
 ^FO40,48^A0N,20,20^FD{$companyName}^FS
