@@ -74,7 +74,16 @@
                             <div class="mb-1">
                                 <label for="battery_health" class="form-label">Battery Health</label>
                                 <input type="text" class="form-control" id="battery_health" name="battery_health"
-                                    required>
+                                    >
+                            </div>
+
+                             <div class="mb-1">
+                                <label for="battery_cycle" class="form-label">Battery Cycle</label>
+                                <input type="text" class="form-control" id="battery_cycle" name="battery_cycle">
+                            </div>
+                            <div class="mb-1">
+                                <label for="description" class="form-label">Description</label>
+                                <input type="text" class="form-control" id="description" name="description">
                             </div>
 
                             <div class="mb-1">
@@ -337,6 +346,14 @@
                                 <label for="battery_health" class="form-label">Battery Health</label>
                                 <input type="text" class="form-control" name="battery_health">
                             </div>
+                            <div class="mb-1">
+                                <label for="battery_cycle" class="form-label">Battery Cycle</label>
+                                <input type="text" class="form-control" name="battery_cycle">
+                            </div>
+                            <div class="mb-1">
+                                <label for="description" class="form-label">Description</label>
+                                <input type="text" class="form-control" name="description">
+                            </div>
 
                             <div class="mb-1">
                                 <label for="cost_price" class="form-label">Cost Price</label>
@@ -470,6 +487,64 @@
         </div>
     </div>
     {{-- End Download Modal --}}
+
+    {{-- Print Lable Modal --}}
+    <!-- Label Preview Modal -->
+<div class="modal fade" id="labelModal" tabindex="-1" role="dialog" aria-labelledby="labelModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="labelModalLabel">Label Preview — TLP 2824 Plus</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="label_mobile_id">
+
+        <div class="mb-2">
+          <strong>Mobile Name:</strong>
+          <div id="label_mobile_name" class="text-muted"></div>
+        </div>
+
+        <div class="mb-2">
+          <strong>Company:</strong>
+          <div id="label_company" class="text-muted"></div>
+        </div>
+
+        <div class="mb-2">
+          <strong>Color:</strong>
+          <div id="label_color" class="text-muted"></div>
+        </div>
+
+        <div class="mb-0">
+          <strong>IMEI:</strong>
+          <div id="label_imei" class="text-muted"></div>
+        </div>
+
+        <!-- Optional: a lightweight on-screen preview box to mimic sticker width -->
+        <div class="mt-3 p-2 border rounded" style="max-width: 460px;">
+          <div class="small text-uppercase text-secondary">Sticker Preview</div>
+          <div class="font-weight-bold" id="preview_mobile_name"></div>
+          <div id="preview_company"></div>
+          <div id="preview_color"></div>
+          <div class="mt-1"><small id="preview_imei"></small></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- This will trigger actual printing in the next step -->
+        <button type="button" class="btn btn-success" id="btnPrintLabel">Print</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+    {{-- End Print Lable Modal --}}
     
  <style>
       
@@ -558,10 +633,14 @@
                                         <th>Color</th>
                                         <th>Storage</th>
                                         <th>Battery Health</th>
+                                        <th>Battery Cycle</th>
+                                        <th>Description</th>
                                         <th>Cost Price</th>
                                         <th>Selling Price</th>
                                         <th>Availability</th>
                                         <th>Transfer</th>
+                                        <th>Label</th>
+
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -597,6 +676,8 @@
                                             <td>{{ $key->color }}</td>
                                             <td>{{ $key->storage }}</td>
                                             <td>{{ $key->battery_health }}</td>
+                                            <td>{{ $key->battery_cycle ?? "N/A" }}</td>
+                                            <td>{{ $key->description ?? "N/A"}}</td>
                                             <td>{{ $key->cost_price }}</td>
                                             <td>{{ $key->selling_price }}</td>
                                             <td>
@@ -610,6 +691,21 @@
                                             <td><a href="" onclick="transfer({{ $key->id }})"
                                                     data-toggle="modal" data-target="#exampleModal2">
                                                     <i class="fa fa-exchange" style="font-size: 20px"></i></a></td>
+                                                    <td>
+    <button
+        type="button"
+        class="btn btn-sm btn-primary"
+        data-toggle="modal"
+        data-target="#labelModal"
+        data-id="{{ $key->id }}"
+        data-mobile="{{ empty($key->mobile_name_id) ? $key->mobile_name : ($key->mobileName->name ?? 'N/A') }}"
+        data-company="{{ $key->company->name ?? 'N/A' }}"
+        data-color="{{ $key->color ?? 'N/A' }}"
+        data-imei="{{ $key->imei_number ?? 'N/A' }}"
+    >
+        Print Label
+    </button>
+</td>
                                             <td>
                                                 <a href="" onclick="edit({{ $key->id }})"
                                                     data-toggle="modal" data-target="#exampleModal1">
@@ -652,6 +748,61 @@
         </div>
     </div>
     <script>
+document.addEventListener('DOMContentLoaded', function () {
+    $('#labelModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const id      = button.data('id') ?? '';
+        const mobile  = button.data('mobile') ?? '';
+        const company = button.data('company') ?? '';
+        const color   = button.data('color') ?? '';
+        const imei    = button.data('imei') ?? '';
+
+        $('#label_mobile_id').val(id);
+        $('#label_mobile_name').text(mobile);
+        $('#label_company').text(company);
+        $('#label_color').text(color);
+        $('#label_imei').text(imei);
+
+        $('#preview_mobile_name').text(mobile);
+        $('#preview_company').text(company);
+        $('#preview_color').text('Color: ' + color);
+        $('#preview_imei').text('IMEI: ' + imei);
+    });
+
+    // Fetch ZPL from backend when clicking Print
+    $('#btnPrintLabel').on('click', async function () {
+        const id = $('#label_mobile_id').val();
+        if (!id) {
+            return alert('No mobile selected.');
+        }
+
+        try {
+            const resp = await fetch(`{{ url('/mobiles') }}/${id}/label.zpl`, {
+                method: 'GET',
+                headers: { 'Accept': 'text/plain' }
+            });
+            if (!resp.ok) throw new Error('Failed to get label data');
+            const zpl = await resp.text();
+
+            // For now, just show a quick confirmation and store it for Step 3 printing
+            console.log('ZPL preview:', zpl);
+
+            // Optional: provide a quick download fallback so you can test in Zebra Utilities
+            const blob = new Blob([zpl], { type: 'text/plain' });
+            const url  = URL.createObjectURL(blob);
+            const a    = document.createElement('a');
+            a.href = url;
+            a.download = `label-mobile-${id}.zpl`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            alert('ZPL generated. In the next step, we’ll send this directly to your Zebra printer.');
+        } catch (e) {
+            console.error(e);
+            alert('Could not generate label data.');
+        }
+    });
+});
              $(document).ready(function () {
             $('#nameSelect').select2({
                 placeholder: "Select a Mobile Name",
@@ -732,6 +883,8 @@ if (data.result.mobile_name_id) {
                     $('#sim_lock').val(data.result.sim_lock);
                     $('#color').val(data.result.color);
                     $('#battery_health').val(data.result.battery_health);
+                    $('#battery_cycle').val(data.result.battery_cycle);
+                    $('#description').val(data.result.description);
                     $('#storage').val(data.result.storage);
                     $('#cost_price').val(data.result.cost_price);
                     $('#availability').val(data.result.availability);

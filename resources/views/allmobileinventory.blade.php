@@ -93,6 +93,16 @@
                                 <input type="text" class="form-control" id="battery_health" name="battery_health"
                                     required>
                             </div>
+                            <div class="mb-1">
+                                <label for="battery_cycle" class="form-label">Battery Cycle</label>
+                                <input type="text" class="form-control" id="battery_cycle" name="battery_cycle"
+                                    required>
+                            </div>
+                            <div class="mb-1">
+                                <label for="description" class="form-label">Description</label>
+                                <input type="text" class="form-control" id="description" name="description"
+                                    required>
+                            </div>
 
                             <div class="mb-1">
                                 <label for="cost_price" class="form-label">Cost Price</label>
@@ -194,6 +204,8 @@
                                         <th>Color</th>
                                         <th>Storage</th>
                                         <th>Battery Health</th>
+                                        <th>Battery Cycle</th>
+                                        <th>Description</th>
                                         <th>Cost Price</th>
                                         <th>Selling Price</th>
                                         <th>Availability</th>
@@ -235,6 +247,8 @@
                                             <td>{{ $key->color }}</td>
                                             <td>{{ $key->storage }}</td>
                                             <td>{{ $key->battery_health }}</td>
+                                            <td>{{ $key->battery_cycle }}</td>
+                                            <td>{{ $key->description }}</td>
                                             <td>{{ $key->cost_price }}</td>
                                             <td>{{ $key->selling_price }}</td>
                                             <td>
@@ -326,6 +340,8 @@ $('#edit_group_id').val(data.result.group_id);
                     $('#cost_price').val(data.result.cost_price);
                     $('#availability').val(data.result.availability);
                     $('#selling_price').val(data.result.selling_price);
+                    $('#battery_cycle').val(data.result.battery_cycle);
+                    $('#description').val(data.result.description);
 
 
                 },

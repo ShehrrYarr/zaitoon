@@ -15,6 +15,8 @@ use App\Http\Controllers\MobileController;
 use App\Models\Group;
 use App\Models\Company;
 use App\Models\MobileName;
+use App\Http\Controllers\MobileLabelController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -616,4 +618,8 @@ Route::get('/mobiles/bulk-entry', [MobileController::class, 'bulkEntryForm'])->n
 Route::post('/mobiles/bulk-entry', [MobileController::class, 'bulkStore'])->name('mobiles.bulkStore');
 Route::get('/mobiles/check-imei', [MobileController::class, 'checkImei'])->name('mobiles.checkImei');
 Route::post('/mobiles/approve-bulk', [MobileController::class, 'approveBulk'])->name('approveBulkMobiles');
+
+//Printer Route
+Route::get('/mobiles/{mobile}/label.zpl', [MobileLabelController::class, 'zpl'])
+     ->name('mobiles.label.zpl');
 

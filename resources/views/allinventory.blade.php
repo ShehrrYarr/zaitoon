@@ -90,6 +90,8 @@
                                         <th>Color</th>
                                         <th>Storage</th>
                                         <th>Battery Health</th>
+                                        <th>Battery Cycle</th>
+                                        <th>Description</th>
                                         <th>Cost Price</th>
                                         <th>Selling Price</th>
                                         <th>Availability</th>
@@ -119,6 +121,8 @@
                                                 <td>{{ $item->color }}</td>
                                                 <td>{{ $item->storage }}</td>
                                                 <td>{{ $item->battery_health }}</td>
+                                                <td>{{ $item->battery_cycle }}</td>
+                                                <td>{{ $item->description }}</td>
                                                 <td>{{ $item->cost_price }}</td>
                                                 <td>{{ $item->selling_price }}</td>
                                                 <td>

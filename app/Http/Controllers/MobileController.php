@@ -173,6 +173,8 @@ class MobileController extends Controller
     $mobile = new Mobile($validatedData);
     $mobile->user()->associate(auth()->user());
     $mobile->original_owner()->associate(auth()->user());
+    $mobile->description = $request->description;
+    $mobile->battery_cycle = $request->battery_cycle;
     $mobile->is_approve = 'Not_Approved';
     $mobile->battery_health = $request->battery_health;
     $mobile->company_id = $request->company_id;
@@ -292,6 +294,8 @@ public function updateMobile(Request $request)
     $data->customer_name = $request->input('customer_name');
     $data->sold_at = now();
     $data->battery_health = $request->input('battery_health');
+    $data->battery_cycle = $request->input('battery_cycle');
+    $data->description = $request->input('description');
     $data->is_approve = $request->input('is_approve');
 
     $data->save();
