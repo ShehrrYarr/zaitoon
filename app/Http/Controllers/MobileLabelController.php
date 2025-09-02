@@ -26,50 +26,56 @@ class MobileLabelController extends Controller
         $imeiSpaced  = trim(chunk_split($imeiRaw, 5, ' '));
 
         // Basic, readable 2.25" label (203 dpi)
-//  $zpl = "^XA
+
+// $zpl = "^XA
 // ^CI28
 // ^PW448
 // ^LL420
+// ^MD30                     // set max darkness
 
 // ^FO20,16^A0N,24,24^FB408,1,0,L,0^FD{$mobileName}^FS
 
-// // Company on left
+// // Company left
 // ^FO20,48^A0N,20,20^FD{$companyName}^FS
-
-// // Color right after company, shifted horizontally
+// // Color right side
 // ^FO220,48^A0N,20,20^FDColor: {$color}^FS
 
-// // SIM Lock on next line
+// // SIM Lock below
 // ^FO20,74^A0N,20,20^FDSIM Lock: {$san($mobile->sim_lock)}^FS
 
+// // Barcode (no human-readable)
 // ^BY2,3,60
 // ^FO20,110^BCN,60,N,N,N
 // ^FD{$imeiRaw}^FS
 
-// ^FO20,190^A0N,18,18^FDIMEI: {$imeiSpaced}^FS
 // ^XZ";
 $zpl = "^XA
 ^CI28
 ^PW448
 ^LL420
-^MD30                     // set max darkness
+^MD30                     // maximum darkness
 
 ^FO20,16^A0N,24,24^FB408,1,0,L,0^FD{$mobileName}^FS
 
 // Company left
 ^FO20,48^A0N,20,20^FD{$companyName}^FS
-// Color right side
-^FO220,48^A0N,20,20^FDColor: {$color}^FS
+
+// Battery Health in the middle
+^FO220,48^A0N,20,20^FDBattery: {$mobile->battery_health}^FS
+
+// Storage on the right
+^FO220,74^A0N,20,20^FDStorage: {$mobile->storage}^FS
 
 // SIM Lock below
-^FO20,74^A0N,20,20^FDSIM Lock: {$san($mobile->sim_lock)}^FS
+^FO20,74^A0N,20,20^FD{$san($mobile->sim_lock)}^FS
 
-// Barcode (no human-readable)
+// Barcode (no human-readable text)
 ^BY2,3,60
 ^FO20,110^BCN,60,N,N,N
 ^FD{$imeiRaw}^FS
 
 ^XZ";
+
 
 
 
