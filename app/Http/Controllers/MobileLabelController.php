@@ -52,6 +52,7 @@ $zpl = "^XA
 ^CI28
 ^PW448
 ^LL420
+^MD30                     // set max darkness
 
 ^FO20,16^A0N,24,24^FB408,1,0,L,0^FD{$mobileName}^FS
 
@@ -63,14 +64,13 @@ $zpl = "^XA
 // SIM Lock below
 ^FO20,74^A0N,20,20^FDSIM Lock: {$san($mobile->sim_lock)}^FS
 
-// Barcode
+// Barcode (no human-readable)
 ^BY2,3,60
 ^FO20,110^BCN,60,N,N,N
 ^FD{$imeiRaw}^FS
 
-// IMEI text moved up slightly (was 190, now 180)
- ^FO20,180^A0N,18,18^FDIMEI: {$imeiSpaced}^FS
 ^XZ";
+
 
 
 
