@@ -34,19 +34,19 @@ $zpl = "^XA
 ^LL420
 ^MD30                     // maximum darkness
 
-^FO20,16^A0N,24,24^FB408,1,0,L,0^FD{$mobileName}^FS
+^FO120,16^A0N,24,24^FB408,1,0,L,0^FD{$mobileName}^FS
 
 // Company left
-^FO20,48^A0N,20,20^FD{$companyName}^FS
+^FO40,48^A0N,20,20^FD{$companyName}^FS
 
 // Battery Health in the middle
-^FO220,48^A0N,20,20^FDBattery: {$mobile->battery_health}^FS
+^FO220,48^A0N,20,20^FDBATTERY: {$mobile->battery_health}^FS
 
 // Storage on the right
-^FO220,74^A0N,20,20^FDStorage: {$mobile->storage}^FS
+^FO220,74^A0N,20,20^FDSTORAGE: {$mobile->storage}^FS
 
 // SIM Lock below
-^FO20,74^A0N,20,20^FD{$san($mobile->sim_lock)}^FS
+^FO40,74^A0N,20,20^FD{$san($mobile->sim_lock)}^FS
 
 // Barcode (no human-readable text)
 ^BY2,3,60
