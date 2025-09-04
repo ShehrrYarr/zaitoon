@@ -156,6 +156,8 @@
                                                 <td>{{ $item->mobile->color }}</td>
                                                 <td>{{ $item->mobile->storage }}</td>
                                                 <td>{{ $item->mobile->battery_health }}</td>
+                                                 <td>{{ $item->mobile->battery_cycle }}</td>
+                                                <td>{{ $item->mobile->description }}</td>
                                                 <td>{{ $item->mobile->cost_price }}</td>
                                                 <td>{{ $item->mobile->selling_price }}</td>
                                                 <td>
