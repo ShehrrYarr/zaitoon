@@ -19,4 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/mobiles', [ApiMobileController::class, 'index']);
+// Route::get('/mobiles', [ApiMobileController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/mobiles', [ApiMobileController::class, 'index']);
