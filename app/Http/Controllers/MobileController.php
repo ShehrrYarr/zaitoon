@@ -87,9 +87,10 @@ class MobileController extends Controller
     }
 
     $mobile = $query->get();
+    $totalCostPrice = $mobile->sum('cost_price');
 
 
-    return view('allmobileinventory', compact('mobile', 'users','groups', 'companies', 'mobileNames'));
+    return view('allmobileinventory', compact('mobile', 'users','groups', 'companies', 'mobileNames','totalCostPrice'));
 }
 
     public function totalShopMobile(Request $request) {

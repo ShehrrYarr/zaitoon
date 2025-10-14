@@ -349,7 +349,15 @@
                         </div>
                     </div>
                 </div>
+<div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-12 latest-update-tracking mt-1">
+                    <div class="card">
+                        <div class="card-header latest-update-heading d-flex justify-content-between">
+                            <h4 class="latest-update-heading-title text-bold-500">Total Credit Cost</h4>
+                            <h3>Rs <strong>{{ $totalCostPrice }}</strong></h3>
+                        </div>
+                    </div>
 
+                </div>
 
 
 
