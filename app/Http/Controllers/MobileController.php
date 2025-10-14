@@ -124,6 +124,73 @@ class MobileController extends Controller
 
     return view('totalshopmobileinventory', compact('mobile', 'users','groups', 'companies', 'mobileNames'));
 }
+    public function allInventory(Request $request)
+{
+    $users       = User::all();
+    $groups      = Group::all();
+    $companies   = Company::all();
+    $mobileNames = MobileName::all();
+
+    // Reusable filter closure
+    $applyFilters = function ($q) use ($request) {
+        if ($request->filled('mobile_name_id')) {
+            $q->where('mobile_name_id', $request->mobile_name_id);
+        }
+        if ($request->filled('company_id')) {
+            $q->where('company_id', $request->company_id);
+        }
+        if ($request->filled('group_id')) {
+            $q->where('group_id', $request->group_id);
+        }
+    };
+
+    // Your own available, non-transferred mobiles (with filters)
+    $mobile = Mobile::with(['mobileName', 'company', 'group'])
+        ->where('user_id', auth()->id())
+        ->where('availability', 'Available')
+        ->where('is_transfer', false)
+        ->where(function ($q) use ($applyFilters) {
+            $applyFilters($q);
+        })
+        ->get();
+
+    // Latest transfer record per mobile to current user (with filters on underlying mobile)
+    $transferMobiles = TransferRecord::with([
+            'fromUser', 'toUser',
+            'mobile.mobileName', 'mobile.company', 'mobile.group',
+        ])
+        ->whereIn('id', function ($query) {
+            $query->select(\DB::raw('MAX(id)'))
+                ->from('transfer_records')
+                ->groupBy('mobile_id');
+        })
+        ->where('to_user_id', Auth::id())
+        ->whereHas('mobile', function ($q) {
+            $q->where('user_id', Auth::id())
+              ->where('availability', 'Available')
+              ->where('is_transfer', true);
+        })
+        ->whereHas('mobile', function ($q) use ($applyFilters) {
+            $applyFilters($q);
+        })
+        ->get();
+
+    // Merge results (unchanged behavior)
+    $result = $mobile->concat($transferMobiles);
+
+    // --- NEW: Total Cost (sum from both sources) ---
+    $totalCostPrice =
+        (float) $mobile->sum('cost_price') +
+        (float) $transferMobiles->sum(function ($tr) {
+            return optional($tr->mobile)->cost_price ?? 0;
+        });
+
+    return view('allinventory', compact(
+        'result', 'users', 'groups', 'companies', 'mobileNames', 'totalCostPrice'
+    ));
+}
+
+
 
 
 

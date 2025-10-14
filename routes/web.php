@@ -122,6 +122,9 @@ Route::get('/index', [App\Http\Controllers\UserController::class, 'index'])->nam
 Route::get('/manageinventory', [App\Http\Controllers\MobileController::class, 'manageInventory'])->name('manageInventory');
 Route::get('/allshopmobile', [App\Http\Controllers\MobileController::class, 'allShopMobile'])->name('allShopMobile');
 Route::get('/totalshopmobile', [App\Http\Controllers\MobileController::class, 'totalShopMobile'])->name('totalshopmobile');
+Route::get('/allinventory', [App\Http\Controllers\MobileController::class, 'allInventory'])->name('allinventory');
+
+
 
 
 
@@ -551,33 +554,6 @@ Route::get('/totalinventory', function () {
 
 
 
-Route::get('/allinventory', function () {
-    $users = User::all();
-    $mobile = Mobile::where('user_id', auth()->user()->id)
-        ->where('availability', 'Available')
-        ->where('is_transfer', false)->with('mobileName','company','group')
-        ->get();
-        // dd( $mobile);
-
-    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName')
-        ->whereIn('id', function ($query) {
-            $query->select(\DB::raw('MAX(id)'))
-                ->from('transfer_records')
-                ->groupBy('mobile_id');
-        })
-        ->where('to_user_id', Auth::id())
-        ->whereHas('mobile', function ($query) {
-            $query->where('user_id', Auth::id())
-                ->where('availability', 'Available');
-        })
-        ->whereHas('mobile', function ($query) {
-            $query->where('is_transfer', true);
-        })
-        ->get();
-
-    $result = $mobile->concat($transferMobiles);
-    return view('allinventory', compact('result', 'users'));
-})->middleware('auth');
 
 
 Route::get('/otherinventory/{id}', [App\Http\Controllers\MobileController::class, 'otherInventory'])->name('otherInventory');

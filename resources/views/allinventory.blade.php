@@ -73,6 +73,37 @@
                     </div>
                 @endif
 
+                   {{-- Filter Section start --}}
+
+                   <div class="ml-1">
+                <form method="GET" action="{{ route('allinventory') }}" class="mb-3 d-flex align-items-center">
+                     <select class="form-control" id="nameSelect" name="mobile_name_id" >
+    <option value="">Select Mobile Name</option>
+    @foreach($mobileNames as $mobileName)
+        <option value="{{ $mobileName->id }}" {{ request('mobile_name_id') == $mobileName->id ? 'selected' : '' }}>{{ $mobileName->name }}</option>
+    @endforeach
+</select>
+<select class="form-control" name="company_id">
+    <option value="">Select Company</option>
+    @foreach($companies as $company)
+        <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+    @endforeach
+</select>
+<select class="form-control" name="group_id" >
+    <option value="">Select Group</option>
+    @foreach($groups as $group)
+        <option value="{{ $group->id }}" {{ request('group_id') == $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
+    @endforeach
+</select>
+                    
+
+                    
+                    <button type="submit" class="btn btn-primary mx-1">Filter</button>
+                    <a href="{{ route('allinventory') }}" class="btn btn-secondary mx-1">Reset</a>
+                </form>
+            </div>
+                {{-- Filter Section End --}}
+
                 <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-12 latest-update-tracking mt-1">
                     <div class="card">
                         <div class="card-header latest-update-heading d-flex justify-content-between">
@@ -181,6 +212,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-12 latest-update-tracking mt-1">
+                    <div class="card">
+                        <div class="card-header latest-update-heading d-flex justify-content-between">
+                            <h4 class="latest-update-heading-title text-bold-500">Total Credit Cost</h4>
+                            <h3>Rs <strong>{{ $totalCostPrice }}</strong></h3>
+                        </div>
+                    </div>
+
+                </div>
 
 
 
@@ -190,6 +230,13 @@
         </div>
     </div>
     <script>
+           $(document).ready(function () {
+            $('#nameSelect').select2({
+                placeholder: "Select a Mobile Name",
+                allowClear: true,
+                width: '100%' // Optional to make it responsive
+            });
+        });
         // Transfer Function
         function transfer(value) {
             console.log(value);

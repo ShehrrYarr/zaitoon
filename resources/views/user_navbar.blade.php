@@ -175,9 +175,9 @@
                         <li class="@if (\Request::is('allshopmobile')) active @endif"><a class="menu-item"
                                 href="/allshopmobile" data-i18n="1 columns">All Available Mobiles</a>
                         </li>
-                        <li class="@if (\Request::is('totalshopmobile')) active @endif"><a class="menu-item"
+                        {{-- <li class="@if (\Request::is('totalshopmobile')) active @endif"><a class="menu-item"
                                 href="/totalshopmobile" data-i18n="1 columns">Total  Mobiles</a>
-                        </li>
+                        </li> --}}
 
 
 
