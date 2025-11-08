@@ -23,9 +23,10 @@ class MobileController extends Controller
             ]);
 
         // Optional filters for the 3rd-party dev
-        if ($request->filled('availability')) {
-            $q->where('availability', $request->query('availability')); // Available|Sold
-        }
+       if ($request->filled('availability')) {
+    $values = explode(',', $request->query('availability'));
+    $q->whereIn('availability', $values);
+}
         if ($request->filled('sim_lock')) {
             $q->where('sim_lock', $request->query('sim_lock')); // PTA|Non-PTA|J.V
         }
