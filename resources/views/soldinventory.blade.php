@@ -418,6 +418,7 @@
                                         <th>Sold at</th>
                                         <th>Added at</th>
                                         <th>Transfer From</th>
+                                        <th>Original Owner</th>
                                         <th>Transfer Date</th>
                                         <th>Restore Purchase</th>
                                         <th>Send To Owner</th>
@@ -466,6 +467,7 @@
                                             <td>{{ $key->mobile->sold_at }}</td>
                                             <td>{{ $key->mobile->created_at }}</td>
                                             <td>{{ $key->fromUser->name }}</td>
+                                            <td>{{ $key->mobile->original_owner->name }}</td>
                                             <td>{{ $key->transfer_time }}</td>
                                             <td><a href="" onclick="restore({{ $key->mobile->id }})"
                                                     data-toggle="modal" data-target="#exampleModal2">

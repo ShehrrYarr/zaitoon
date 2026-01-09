@@ -212,7 +212,7 @@ Route::get('/soldinventory', function () {
     // Calculate the sum of the selling_price for the $mobile collection
     $sumSellingPriceMobile = $mobile->sum('selling_price');
 
-    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName')
+    $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName','mobile.original_owner')
         ->whereIn('id', function ($query) {
             $query->select(\DB::raw('MAX(id)'))
                 ->from('transfer_records')
