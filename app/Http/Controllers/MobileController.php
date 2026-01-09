@@ -669,6 +669,7 @@ public function moveToOwner(Request $request)
     $mobile = Mobile::findOrFail($mobileId);
     $mobile->user_id = $mobile->original_owner_id;
     $mobile->is_transfer = false;
+    $mobile->has_transfered = true;
     $mobile->save();
 
     // Perform any additional actions or redirect as needed

@@ -200,6 +200,11 @@ Route::get('/soldinventory', function () {
         ->where('is_transfer', false)
         ->where('is_approve', 'Not_Approved')
         ->get();
+    $hasTransferedMobile = Mobile::where('user_id', auth()->user()->id)
+        ->where('availability', 'Sold')
+        ->where('is_transfer', false)
+        ->where('is_approve', 'Not_Approved')->where('has_transfered',true)
+        ->get();
 
     // Calculate the sum of the profit for the $mobile collection
     $totalProfitMobile = $mobile->sum(function ($mobile) {
@@ -245,7 +250,7 @@ Route::get('/soldinventory', function () {
     // Calculate the overall profit
     $overAllProfit = $totalProfitMobile + $totalProfitTransfer;
 
-    return view('soldinventory', compact('mobile', 'transferMobiles', 'totalProfitMobile', 'totalProfitTransfer', 'sumCostPriceMobile', 'sumSellingPriceTransfer', 'sumCostPriceTransfer', 'overAllProfit', 'sumSellingPriceMobile'));
+    return view('soldinventory', compact('mobile','hasTransferedMobile', 'transferMobiles', 'totalProfitMobile', 'totalProfitTransfer', 'sumCostPriceMobile', 'sumSellingPriceTransfer', 'sumCostPriceTransfer', 'overAllProfit', 'sumSellingPriceMobile'));
 })->middleware('auth');
 
 
