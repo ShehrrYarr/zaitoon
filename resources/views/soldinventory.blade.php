@@ -617,6 +617,19 @@
                     </div>
 
                 </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-12 latest-update-tracking mt-1">
+                    <div class="card">
+                        <div class="card-header latest-update-heading d-flex justify-content-between">
+                            <h4 class="latest-update-heading-title text-bold-500">Total Cost Price of Other Sold Mobiles</h4>
+                            <h4>Rs {{$hasTransfersumCostPriceMobile}}</h4>
+                        </div>
+                        <div class="card-header latest-update-heading d-flex justify-content-between">
+                            <h4 class="latest-update-heading-title text-bold-500">Total Sold Price of Other Sold Mobiles</h4>
+                            <h4>Rs {{$hasTransfersumSellingPriceMobile}}</h4>
+                        </div>
+                    </div>
+
+                </div>
 
 
                 <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-12 latest-update-tracking mt-1">

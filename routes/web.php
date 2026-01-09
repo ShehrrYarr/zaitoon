@@ -216,6 +216,11 @@ Route::get('/soldinventory', function () {
 
     // Calculate the sum of the selling_price for the $mobile collection
     $sumSellingPriceMobile = $mobile->sum('selling_price');
+    // Calculate the sum of the cost_price for the $mobile collection
+    $hasTransfersumCostPriceMobile = $hasTransferedMobile->sum('cost_price');
+
+    // Calculate the sum of the selling_price for the $mobile collection
+    $hasTransfersumSellingPriceMobile = $hasTransferedMobile->sum('selling_price');
 
     $transferMobiles = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName','mobile.original_owner')
         ->whereIn('id', function ($query) {
@@ -250,7 +255,7 @@ Route::get('/soldinventory', function () {
     // Calculate the overall profit
     $overAllProfit = $totalProfitMobile + $totalProfitTransfer;
 
-    return view('soldinventory', compact('mobile','hasTransferedMobile', 'transferMobiles', 'totalProfitMobile', 'totalProfitTransfer', 'sumCostPriceMobile', 'sumSellingPriceTransfer', 'sumCostPriceTransfer', 'overAllProfit', 'sumSellingPriceMobile'));
+    return view('soldinventory', compact('mobile','hasTransfersumSellingPriceMobile','hasTransfersumCostPriceMobile','hasTransferedMobile', 'transferMobiles', 'totalProfitMobile', 'totalProfitTransfer', 'sumCostPriceMobile', 'sumSellingPriceTransfer', 'sumCostPriceTransfer', 'overAllProfit', 'sumSellingPriceMobile'));
 })->middleware('auth');
 
 
