@@ -77,6 +77,8 @@ Route::put('/movetoowner', [App\Http\Controllers\MobileController::class, 'moveT
 Route::put('/approveMobile', [App\Http\Controllers\MobileController::class, 'approveMobile'])->name('approveMobile');
 Route::put('/pendingrestore', [App\Http\Controllers\MobileController::class, 'pendingRestore'])->name('pendingRestore');
 Route::put('/receivedpendingrestore', [App\Http\Controllers\MobileController::class, 'receivedPendingRestore'])->name('receivedPendingRestore');
+Route::post('/mobiles/bulk-move-to-owner', [MobileController::class, 'bulkMoveToOwner'])
+    ->name('mobiles.bulkMoveToOwner');
 
 
 

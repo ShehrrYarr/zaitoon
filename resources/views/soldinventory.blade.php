@@ -487,10 +487,25 @@
                             <h4 class="latest-update-heading-title text-bold-500">Transfer Mobiles</h4>
 
                         </div>
+                       <div class="mb-1 ml-1">
+                         <form id="bulkMoveToOwnerForm" action="{{ route('mobiles.bulkMoveToOwner') }}" method="POST">
+    @csrf
+
+    <button type="submit" class="btn btn-primary"
+        onclick="return confirm('Move selected mobiles to original owner?')">
+        MoveToOwner Selected Mobiles
+    </button>
+
+    <input type="hidden" name="ids" id="selectedMobileIds">
+</form>
+                       </div>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
                                 <thead>
                                     <tr>
+                                        <th>
+    <input type="checkbox" id="selectAll">
+</th>
                                         <th>Mobile Name</th>
                                         <th>IMEI#</th>
                                         <th>SIM Lock</th>
@@ -516,6 +531,9 @@
                                 <tbody>
                                     @foreach ($transferMobiles as $key)
                                         <tr>
+                                            <td>
+    <input type="checkbox" class="rowCheckbox" value="{{ $key->mobile->id }}">
+</td>
                                             {{-- <td>{{ $key->mobile->mobile_name }}</td> --}}
                                                                    <td>
     @if(empty($key->mobile->mobileName->id))
@@ -835,6 +853,24 @@ $(document).ready(function() {
         });
     });
 });
+
+ // Select All toggle
+    document.getElementById('selectAll').addEventListener('change', function () {
+        document.querySelectorAll('.rowCheckbox').forEach(cb => cb.checked = this.checked);
+    });
+
+    // On submit collect selected ids
+    document.getElementById('bulkMoveToOwnerForm').addEventListener('submit', function (e) {
+        const ids = Array.from(document.querySelectorAll('.rowCheckbox:checked')).map(cb => cb.value);
+
+        if (ids.length === 0) {
+            e.preventDefault();
+            alert('Please select at least one mobile.');
+            return;
+        }
+
+        document.getElementById('selectedMobileIds').value = ids.join(',');
+    });
 
     </script>
 @endsection

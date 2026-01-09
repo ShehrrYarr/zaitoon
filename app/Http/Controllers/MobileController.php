@@ -32,7 +32,27 @@ class MobileController extends Controller
          $this->middleware('auth');
      }
 
+public function bulkMoveToOwner(Request $request)
+{
+    // dd($request->all());
+    $idsString = $request->input('ids'); // "1,2,3"
+    $ids = array_filter(explode(',', $idsString));
 
+    if (empty($ids)) {
+        return redirect()->back()->with('error', 'No mobiles selected.');
+    }
+
+    DB::transaction(function () use ($ids) {
+        Mobile::whereIn('id', $ids)->update([
+            'user_id' => DB::raw('original_owner_id'),
+            'is_transfer' => false,
+            'has_transfered' => true,
+            'updated_at' => now(),
+        ]);
+    });
+
+    return redirect()->back()->with('success', 'Selected mobiles transferred to the original owner successfully.');
+}
 
     public function manageInventory(Request $request) {
     $groups = Group::all();
