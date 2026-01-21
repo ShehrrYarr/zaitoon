@@ -270,27 +270,55 @@ Route::get('/soldinventory', function () {
 
 
 
+// Route::get('/soldapprovedinventory', function () {
+
+//     $mobile = Mobile::where('user_id', auth()->user()->id)->where('availability', 'Sold')->where('is_transfer', false)
+//     ->where('is_approve', 'Approved')
+//     ->get();
+    
+//      $startOfWeek = Carbon::now()->startOfWeek(Carbon::FRIDAY);
+//          $endOfWeek = Carbon::now()->endOfWeek(Carbon::FRIDAY);
+    
+//       $profit = Mobile::where('user_id', auth()->user()->id)
+//              ->where('availability', 'Sold')
+//              ->where('is_transfer', false)
+//              ->where('is_approve', 'Approved')
+//              ->whereBetween('sold_at', [$startOfWeek, $endOfWeek])
+//              ->sum('selling_price') - Mobile::where('user_id', auth()->user()->id)
+//              ->where('availability', 'Sold')
+//              ->where('is_transfer', false)
+//              ->where('is_approve', 'Approved')
+//              ->whereBetween('sold_at', [$startOfWeek, $endOfWeek])
+//              ->sum('cost_price');
+//     return view('soldapprovedinventory', compact('mobile','profit'));
+// })->middleware('auth');
 Route::get('/soldapprovedinventory', function () {
 
-    $mobile = Mobile::where('user_id', auth()->user()->id)->where('availability', 'Sold')->where('is_transfer', false)
-    ->where('is_approve', 'Approved')
-    ->get();
-    
-     $startOfWeek = Carbon::now()->startOfWeek(Carbon::FRIDAY);
-         $endOfWeek = Carbon::now()->endOfWeek(Carbon::FRIDAY);
-    
-      $profit = Mobile::where('user_id', auth()->user()->id)
-             ->where('availability', 'Sold')
-             ->where('is_transfer', false)
-             ->where('is_approve', 'Approved')
-             ->whereBetween('sold_at', [$startOfWeek, $endOfWeek])
-             ->sum('selling_price') - Mobile::where('user_id', auth()->user()->id)
-             ->where('availability', 'Sold')
-             ->where('is_transfer', false)
-             ->where('is_approve', 'Approved')
-             ->whereBetween('sold_at', [$startOfWeek, $endOfWeek])
-             ->sum('cost_price');
-    return view('soldapprovedinventory', compact('mobile','profit'));
+    $fromDate = Carbon::now()->subDays(20)->startOfDay();
+    $toDate   = Carbon::now()->endOfDay();
+
+    $mobile = Mobile::where('user_id', auth()->id())
+        ->where('availability', 'Sold')
+        ->where('is_transfer', false)
+        ->where('is_approve', 'Approved')
+        ->whereBetween('sold_at', [$fromDate, $toDate])
+        ->get();
+
+    $profit = Mobile::where('user_id', auth()->id())
+        ->where('availability', 'Sold')
+        ->where('is_transfer', false)
+        ->where('is_approve', 'Approved')
+        ->whereBetween('sold_at', [$fromDate, $toDate])
+        ->sum('selling_price')
+        -
+        Mobile::where('user_id', auth()->id())
+        ->where('availability', 'Sold')
+        ->where('is_transfer', false)
+        ->where('is_approve', 'Approved')
+        ->whereBetween('sold_at', [$fromDate, $toDate])
+        ->sum('cost_price');
+
+    return view('soldapprovedinventory', compact('mobile', 'profit'));
 })->middleware('auth');
 
 
