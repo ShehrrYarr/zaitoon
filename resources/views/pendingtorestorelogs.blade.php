@@ -80,12 +80,5 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $('#restoreLogsTable').DataTable({
-            order: [[0, 'desc']]
-        });
-    });
-</script>
 
 @endsection

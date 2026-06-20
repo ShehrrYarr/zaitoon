@@ -92,12 +92,5 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $('#deletedMobilesTable').DataTable({
-            order: [[0, 'desc']]
-        });
-    });
-</script>
 
 @endsection
