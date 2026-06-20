@@ -115,6 +115,31 @@
                 </div>
             @endif
 
+                <div class="ml-1">
+                    <form method="GET" action="{{ route('otherTransferSoldInventory', $id) }}" class="mb-3 d-flex align-items-center">
+                        <select class="form-control" id="nameSelect" name="mobile_name_id">
+                            <option value="">Select Mobile Name</option>
+                            @foreach($mobileNames as $mobileName)
+                                <option value="{{ $mobileName->id }}" {{ request('mobile_name_id') == $mobileName->id ? 'selected' : '' }}>{{ $mobileName->name }}</option>
+                            @endforeach
+                        </select>
+                        <select class="form-control" name="company_id">
+                            <option value="">Select Company</option>
+                            @foreach($companies as $company)
+                                <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                            @endforeach
+                        </select>
+                        <select class="form-control" name="group_id">
+                            <option value="">Select Group</option>
+                            @foreach($groups as $group)
+                                <option value="{{ $group->id }}" {{ request('group_id') == $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn btn-primary mx-1">Filter</button>
+                        <a href="{{ route('otherTransferSoldInventory', $id) }}" class="btn btn-secondary mx-1">Reset</a>
+                    </form>
+                </div>
+
                 <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-12 latest-update-tracking mt-1">
                     <div class="card">
                         <div class="card-header latest-update-heading d-flex justify-content-between">
@@ -306,5 +331,6 @@
 });
 
 
+        $('#nameSelect').select2({ placeholder: "Select a Mobile Name", allowClear: true });
     </script>
 @endsection

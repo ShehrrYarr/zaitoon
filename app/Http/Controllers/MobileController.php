@@ -697,96 +697,189 @@ public function moveToOwner(Request $request)
     return redirect()->back()->with('success', 'Mobile transferred to the original owner successfully.');
 }
 
-public function otherInventory($id)
+public function otherInventory(Request $request, $id)
 {
-    $mobileNames= MobileName::all();
+    $mobileNames = MobileName::all();
+    $companies   = Company::all();
+    $groups      = Group::all();
 
-    $mobileData = Mobile::where('user_id', $id)
-    ->where('is_transfer', false)
-    ->where('availability', 'Available')->with('mobileName')
-    ->get();
+    $query = Mobile::where('user_id', $id)
+        ->where('is_transfer', false)
+        ->where('availability', 'Available')
+        ->with('mobileName', 'company', 'group');
 
-    return view('otherinventory', ['mobileData' => $mobileData,
- 'mobileNames' => $mobileNames]);
+    if ($request->filled('mobile_name_id')) {
+        $query->where('mobile_name_id', $request->mobile_name_id);
+    }
+    if ($request->filled('company_id')) {
+        $query->where('company_id', $request->company_id);
+    }
+    if ($request->filled('group_id')) {
+        $query->where('group_id', $request->group_id);
+    }
+
+    $mobileData = $query->get();
+
+    return view('otherinventory', compact('mobileData', 'mobileNames', 'companies', 'groups', 'id'));
 }
 
-public function otherTotalInventory($id)
+public function otherTotalInventory(Request $request, $id)
 {
-    $mobileNames= MobileName::all();
-    $mobileData = Mobile::where('user_id', $id)
-    ->where('availability', 'Available')->with('mobileName')
-    ->get();
+    $mobileNames = MobileName::all();
+    $companies   = Company::all();
+    $groups      = Group::all();
 
-    return view('othertotalinventory', ['mobileData' => $mobileData,
- 'mobileNames' => $mobileNames]);
+    $query = Mobile::where('user_id', $id)
+        ->where('availability', 'Available')
+        ->with('mobileName', 'company', 'group');
+
+    if ($request->filled('mobile_name_id')) {
+        $query->where('mobile_name_id', $request->mobile_name_id);
+    }
+    if ($request->filled('company_id')) {
+        $query->where('company_id', $request->company_id);
+    }
+    if ($request->filled('group_id')) {
+        $query->where('group_id', $request->group_id);
+    }
+
+    $mobileData = $query->get();
+
+    return view('othertotalinventory', compact('mobileData', 'mobileNames', 'companies', 'groups', 'id'));
 }
 
-public function otherSoldInventory($id)
+public function otherSoldInventory(Request $request, $id)
 {
-            $userId = auth()->id();
+    $userId      = auth()->id();
+    $mobileNames = MobileName::all();
+    $companies   = Company::all();
+    $groups      = Group::all();
 
-    $mobileNames= MobileName::all();
+    $query = Mobile::where('user_id', $id)
+        ->where('is_transfer', false)
+        ->where('availability', 'Sold')
+        ->with('mobileName', 'company', 'group');
 
-    $mobileData = Mobile::where('user_id', $id)
-    ->where('is_transfer', false)
-    ->where('availability', 'Sold')
-    ->get();
+    if ($request->filled('mobile_name_id')) {
+        $query->where('mobile_name_id', $request->mobile_name_id);
+    }
+    if ($request->filled('company_id')) {
+        $query->where('company_id', $request->company_id);
+    }
+    if ($request->filled('group_id')) {
+        $query->where('group_id', $request->group_id);
+    }
 
-    return view('othersoldinventory', ['mobileData' => $mobileData ,'userId'=>$userId]);
+    $mobileData = $query->get();
+
+    return view('othersoldinventory', compact('mobileData', 'mobileNames', 'companies', 'groups', 'id', 'userId'));
 }
 
-public function otherPendingInventory($id)
+public function otherPendingInventory(Request $request, $id)
 {
-    $mobileData = Mobile::where('user_id', $id)
-    ->where('is_transfer', false)
-    ->where('availability', 'Pending')->with('mobileName')
-    ->get();
+    $mobileNames = MobileName::all();
+    $companies   = Company::all();
+    $groups      = Group::all();
 
-    return view('otherpendinginventory', ['mobileData' => $mobileData]);
+    $query = Mobile::where('user_id', $id)
+        ->where('is_transfer', false)
+        ->where('availability', 'Pending')
+        ->with('mobileName', 'company', 'group');
+
+    if ($request->filled('mobile_name_id')) {
+        $query->where('mobile_name_id', $request->mobile_name_id);
+    }
+    if ($request->filled('company_id')) {
+        $query->where('company_id', $request->company_id);
+    }
+    if ($request->filled('group_id')) {
+        $query->where('group_id', $request->group_id);
+    }
+
+    $mobileData = $query->get();
+
+    return view('otherpendinginventory', compact('mobileData', 'mobileNames', 'companies', 'groups', 'id'));
 }
 
-public function otherTransferInventory($id)
+public function otherTransferInventory(Request $request, $id)
 {
-    $mobileData = TransferRecord::with('fromUser', 'toUser', 'mobile')
-        ->whereIn('id', function ($query) use ($id) {
-            $query->select(\DB::raw('MAX(id)'))
+    $mobileNames = MobileName::all();
+    $companies   = Company::all();
+    $groups      = Group::all();
+
+    $query = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName', 'mobile.company', 'mobile.group')
+        ->whereIn('id', function ($q) {
+            $q->select(\DB::raw('MAX(id)'))
                 ->from('transfer_records')
                 ->groupBy('mobile_id');
         })
         ->where('to_user_id', $id)
-        ->whereHas('mobile', function ($query) use ($id) {
-            $query->where('user_id', $id)
-                ->where('availability', 'Available');
-        })
-        ->whereHas('mobile', function ($query) {
-            $query->where('is_transfer', true);
-        })
-        ->get();
+        ->whereHas('mobile', function ($q) use ($id) {
+            $q->where('user_id', $id)
+                ->where('availability', 'Available')
+                ->where('is_transfer', true);
+        });
 
-    return view('othertransferinventory', ['mobileData' => $mobileData]);
+    if ($request->filled('mobile_name_id')) {
+        $query->whereHas('mobile', function ($q) use ($request) {
+            $q->where('mobile_name_id', $request->mobile_name_id);
+        });
+    }
+    if ($request->filled('company_id')) {
+        $query->whereHas('mobile', function ($q) use ($request) {
+            $q->where('company_id', $request->company_id);
+        });
+    }
+    if ($request->filled('group_id')) {
+        $query->whereHas('mobile', function ($q) use ($request) {
+            $q->where('group_id', $request->group_id);
+        });
+    }
+
+    $mobileData = $query->get();
+
+    return view('othertransferinventory', compact('mobileData', 'mobileNames', 'companies', 'groups', 'id'));
 }
-public function otherTransferSoldInventory($id)
+
+public function otherTransferSoldInventory(Request $request, $id)
 {
+    $userId      = auth()->id();
+    $mobileNames = MobileName::all();
+    $companies   = Company::all();
+    $groups      = Group::all();
 
-            $userId = auth()->id();
-
-    $mobileData = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName')
-        ->whereIn('id', function ($query) {
-            $query->select(\DB::raw('MAX(id)'))
+    $query = TransferRecord::with('fromUser', 'toUser', 'mobile.mobileName', 'mobile.company', 'mobile.group')
+        ->whereIn('id', function ($q) {
+            $q->select(\DB::raw('MAX(id)'))
                 ->from('transfer_records')
                 ->groupBy('mobile_id');
         })
         ->where('to_user_id', $id)
-        ->whereHas('mobile', function ($query) use ($id) {
-            $query->where('user_id', $id)
-                ->where('availability', 'Sold');
-        })
-        ->whereHas('mobile', function ($query) {
-            $query->where('is_transfer', true);
-        })
-        ->get();
+        ->whereHas('mobile', function ($q) use ($id) {
+            $q->where('user_id', $id)
+                ->where('availability', 'Sold')
+                ->where('is_transfer', true);
+        });
 
-    return view('othertransfersoldinventory', ['mobileData' => $mobileData,'userId'=>$userId]);
+    if ($request->filled('mobile_name_id')) {
+        $query->whereHas('mobile', function ($q) use ($request) {
+            $q->where('mobile_name_id', $request->mobile_name_id);
+        });
+    }
+    if ($request->filled('company_id')) {
+        $query->whereHas('mobile', function ($q) use ($request) {
+            $q->where('company_id', $request->company_id);
+        });
+    }
+    if ($request->filled('group_id')) {
+        $query->whereHas('mobile', function ($q) use ($request) {
+            $q->where('group_id', $request->group_id);
+        });
+    }
+
+    $mobileData = $query->get();
+
+    return view('othertransfersoldinventory', compact('mobileData', 'mobileNames', 'companies', 'groups', 'id', 'userId'));
 }
 
 
