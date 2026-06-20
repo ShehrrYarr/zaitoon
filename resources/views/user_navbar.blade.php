@@ -182,6 +182,9 @@
                         <li class="@if (\Request::is('deletedmobiles')) active @endif"><a class="menu-item"
                                 href="/deletedmobiles">Deleted Mobiles</a>
                         </li>
+                        <li class="@if (\Request::is('pendingtorestorelogs')) active @endif"><a class="menu-item"
+                                href="/pendingtorestorelogs">Pending Restore Logs</a>
+                        </li>
                         @endif
 
 

@@ -349,6 +349,7 @@ Route::post('/moveToInventory', [App\Http\Controllers\MobileController::class, '
 Route::get('/findapmobile/{id}', [App\Http\Controllers\MobileController::class, 'findApMobile'])->name('findApMobile');
 Route::get('/deletemobile', [App\Http\Controllers\MobileController::class, 'destroy'])->name('deleteMobile');
 Route::get('/deletedmobiles', [App\Http\Controllers\MobileController::class, 'deletedMobiles'])->name('deletedMobiles');
+Route::get('/pendingtorestorelogs', [App\Http\Controllers\MobileController::class, 'pendingRestoreLogs'])->name('pendingRestoreLogs');
 
 Route::get('/restoremobiles', [App\Http\Controllers\RestoreController::class, 'restoreMobiles'])->name('restoremobiles');
 

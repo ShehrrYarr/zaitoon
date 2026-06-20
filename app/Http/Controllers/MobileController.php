@@ -429,10 +429,22 @@ public function restoreMobile(Request $request)
      public function pendingRestore(Request $request)
 {
     $data = Mobile::findOrFail($request->id);
-    // dd($request->id);
 
     if($request->availability == 'Pending'){
-    return redirect()->back()->with('danger', 'Please Select a Different Option');
+        return redirect()->back()->with('danger', 'Please Select a Different Option');
+    }
+
+    if ($request->input('availability') === 'Available') {
+        \App\Models\PendingRestoreLog::create([
+            'mobile_id'          => $data->id,
+            'restored_by'        => auth()->id(),
+            'old_cost_price'     => $data->cost_price,
+            'new_cost_price'     => $request->input('cost_price'),
+            'old_selling_price'  => $data->selling_price,
+            'new_selling_price'  => $request->input('selling_price'),
+            'old_battery_health' => $data->battery_health,
+            'new_battery_health' => $request->input('battery_health'),
+        ]);
     }
 
     $data->cost_price = $request->input('cost_price');
@@ -446,10 +458,22 @@ public function restoreMobile(Request $request)
 public function receivedPendingRestore(Request $request)
 {
     $data = Mobile::findOrFail($request->id);
-    // dd($request->id);
 
     if($request->availability == 'Pending'){
-    return redirect()->back()->with('danger', 'Please Select a Different Option');
+        return redirect()->back()->with('danger', 'Please Select a Different Option');
+    }
+
+    if ($request->input('availability') === 'Available') {
+        \App\Models\PendingRestoreLog::create([
+            'mobile_id'          => $data->id,
+            'restored_by'        => auth()->id(),
+            'old_cost_price'     => $data->cost_price,
+            'new_cost_price'     => $request->input('cost_price'),
+            'old_selling_price'  => $data->selling_price,
+            'new_selling_price'  => $request->input('selling_price'),
+            'old_battery_health' => $data->battery_health,
+            'new_battery_health' => $request->input('battery_health'),
+        ]);
     }
 
     $data->cost_price = $request->input('cost_price');
@@ -897,6 +921,19 @@ public function destroy(Request $request)
     } else {
         return redirect()->back()->with('danger', "You can't delete the product.");
     }
+}
+
+public function pendingRestoreLogs()
+{
+    if (auth()->user()->id !== 6) {
+        abort(403);
+    }
+
+    $logs = \App\Models\PendingRestoreLog::with('mobile.mobileName', 'mobile.company', 'mobile.group', 'restoredBy')
+        ->latest()
+        ->get();
+
+    return view('pendingtorestorelogs', compact('logs'));
 }
 
 public function deletedMobiles()
