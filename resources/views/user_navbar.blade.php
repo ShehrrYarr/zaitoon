@@ -178,9 +178,11 @@
                         {{-- <li class="@if (\Request::is('totalshopmobile')) active @endif"><a class="menu-item"
                                 href="/totalshopmobile" data-i18n="1 columns">Total  Mobiles</a>
                         </li> --}}
+                        @if(auth()->user()->id === 6)
                         <li class="@if (\Request::is('deletedmobiles')) active @endif"><a class="menu-item"
                                 href="/deletedmobiles">Deleted Mobiles</a>
                         </li>
+                        @endif
 
 
                     </ul>

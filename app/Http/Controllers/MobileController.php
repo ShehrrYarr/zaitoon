@@ -901,6 +901,10 @@ public function destroy(Request $request)
 
 public function deletedMobiles()
 {
+    if (auth()->user()->id !== 6) {
+        abort(403);
+    }
+
     $mobiles = Mobile::onlyTrashed()
         ->with('mobileName', 'company', 'group', 'original_owner', 'user', 'deletedBy')
         ->latest('deleted_at')
