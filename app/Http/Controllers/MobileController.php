@@ -796,13 +796,24 @@ public function destroy(Request $request)
 {
     $filterId = Mobile::find($request->id);
 
-    // Check if the authenticated user ID is 2
     if (auth()->user()->id === 6) {
+        $filterId->deleted_by = auth()->user()->id;
+        $filterId->save();
         $filterId->delete();
         return redirect()->back()->with('success', 'Mobile Deleted Successfully');
     } else {
         return redirect()->back()->with('danger', "You can't delete the product.");
     }
+}
+
+public function deletedMobiles()
+{
+    $mobiles = Mobile::onlyTrashed()
+        ->with('mobileName', 'company', 'group', 'original_owner', 'user', 'deletedBy')
+        ->latest('deleted_at')
+        ->get();
+
+    return view('deletedmobiles', compact('mobiles'));
 }
 
 public function bulkEntryForm()

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Mobile extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = [
         'mobile_name',
         'imei_number',
@@ -44,6 +45,11 @@ public function group()
 public function mobileName()
 {
     return $this->belongsTo(MobileName::class, 'mobile_name_id');
+}
+
+public function deletedBy()
+{
+    return $this->belongsTo(User::class, 'deleted_by');
 }
 
 }
